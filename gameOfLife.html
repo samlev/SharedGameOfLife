@@ -12,6 +12,16 @@ body {
     margin: 0px;
     padding: 10px;
 }
+#hidden {
+    overflow:hidden;
+    width:1px;
+    height:1px;
+    margin:0px;
+    padding:0px;
+    float:left;
+    position:absolute;
+    left:-10px;
+}
 #gameoflife {
     border:1px solid #CCCCCC;
     margin:20px;
@@ -70,6 +80,7 @@ body {
     </ul>
   </p>
   <a name="game"></a>
+  <div id="hidden"></div>
   <div id="gameoflife" class="lifegrid">
     Please wait...
   </div>
