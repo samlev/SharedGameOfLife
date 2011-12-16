@@ -34,6 +34,9 @@ function init() {
         // update the user
         gol_wrapper.html('Please wait... Initializing grid...<br />Done!<br /><br />Loading...');
         
+        // get the current generation
+        
+        // now place the grid
         gol_wrapper.html(gol_table);
         hidden_div.html('');
     }
