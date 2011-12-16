@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Conway's Game Of Life... The multiplayer experience!</title>
+<meta name="author" content="Samuel Levy" />
+<script type="text/javascript" src="jquery-1.7.min.js"></script>
+<script type="text/javascript" src="gameoflife.js" defer="defer"></script>
+<style>
+body {
+    font-family: Monospace;
+    background-color: #f0f0f0;
+    margin: 0px;
+    padding: 10px;
+}
+</style>
+</head>
+<body>
+  <h1>Conway's Game Of Life... The multiplayer experience!</h1>
+  <p>
+    <a href="http://www.bitstorm.org/gameoflife/">Conway's Game of life</a> is
+    an experiment in cellular automation. I have already done some experiments by
+    making a <a href="http://gameoflife.samuellevy.com/">3D HTML5 implementation</a>.
+  </p>
+  <p>
+    This time, I've decided to make a 2D version, but one that everyone can enjoy
+    together! This version lives on a server, and so what you see, everyone else
+    viewing also sees. It also means that what you add, everyone else sees.
+  </p>
+  <p>
+    <strong>Rules:</strong>
+    <ul>
+      <li>Any live cell with fewer than two live neighbours dies, as if caused by under-population.</li>
+      <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+      <li>Any live cell with more than three live neighbours dies, as if by overcrowding.</li>
+      <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+    </ul>
+  </p>
+  <a name="game"></a>
+  <div id="gameoflife" style="border:1px solid #CCCCCC; margin:20px; overflow:hidden; witdh:800px; height:800px;">
+    Please wait...
+  </div>
+  <p>
+    This was a fun experiment, created by <a href="http://www.samuellevy.com/">Samuel Levy</a>.
+    You can get the source code on <a href="https://github.com/samlev/SharedGameOfLife">Git Hub</a>.
+  </p>
+  <p>
+    I used <a href="http://jquery.com/">jQuery</a> to build this.
+  </p>
+</body>
+</html>
