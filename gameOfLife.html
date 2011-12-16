@@ -12,6 +12,40 @@ body {
     margin: 0px;
     padding: 10px;
 }
+#gameoflife {
+    border:1px solid #CCCCCC;
+    margin:20px;
+    overflow:hidden;
+    width:600px;
+    height:600px;
+}
+.lifegrid table{
+    margin-left:auto;
+    margin-right:auto;
+}
+.lifegrid table {
+    border-collapse: collapse;
+    border:none;
+}
+.lifegrid td{
+    width:2px;
+    height:2px;
+    margin:0px;
+    border:1px solid #999999;
+    background-color:#f0f0f0;
+}
+.lifegrid td.alive {
+    background-color:#a0a000;
+}
+.lifegrid td.possible {
+    background-color:#00a0a0;
+}
+.lifegrid td.alive.possible {
+    background-color:#00a000;
+}
+.disabled .lifegrid td.alive {
+    background-color:#666666;
+}
 </style>
 </head>
 <body>
@@ -36,8 +70,213 @@ body {
     </ul>
   </p>
   <a name="game"></a>
-  <div id="gameoflife" style="border:1px solid #CCCCCC; margin:20px; overflow:hidden; witdh:800px; height:800px;">
+  <div id="gameoflife" class="lifegrid">
     Please wait...
+  </div>
+  <div id="life">
+    Add life: <span id="amountleft">50</span> left
+    <table id="single">
+      <tr>
+        <th id="add_none" width="100">None</th>
+        <th id="add_single" width="100">Single (1)</th>
+        <th id="add_block" width="100">Block (4)</th>
+        <th id="add_glider" width="100">Glider (5)</th>
+        <th id="add_lwss" width="100">Lightweight Space Ship (9)</th>
+        <th id="add_pulsar" width="100">Pulsar (48)</th>
+      </tr>
+      <tr>
+        <th id="show_none">&nbsp;</th>
+        <th id="show_single">
+          <div class="lifegrid">
+            <table>
+              <tr>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+              </tr>
+            </table>
+          </div>
+        </th>
+        <th id="show_block">
+          <div class="lifegrid">
+            <table>
+              <tr>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td>
+              </tr>
+            </table>
+          </div>
+        </th>
+        <th id="show_glider">
+          <div class="lifegrid">
+            <table>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td class="alive"></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td class="alive"><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </table>
+          </div>
+        </th>
+        <th id="show_lwss">
+          <div class="lifegrid">
+            <table>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td><td></td><td class="alive"></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td><td></td><td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td class="alive"></td><td class="alive"></td><td class="alive"><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+              </tr>
+            </table>
+          </div>
+        </th>
+        <th id="show_pulsar">
+          <div class="lifegrid">
+            <table>
+              <tr>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td class="alive"></td><td></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td></td><td class="alive"></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+                <td class="alive"></td><td class="alive"></td><td class="alive"></td>
+                <td></td><td></td><td></td>
+              </tr>
+              <tr>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+                <td></td><td></td><td></td>
+              </tr>
+            </table>
+          </div>
+        </th>
+      </tr>
+    </table>
   </div>
   <p>
     This was a fun experiment, created by <a href="http://www.samuellevy.com/">Samuel Levy</a>.
