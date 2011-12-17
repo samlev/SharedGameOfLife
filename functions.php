@@ -103,8 +103,9 @@ function new_generation() {
                 $n = count_neighbours($oldgrid,$i,$j);
                 
                 if ($oldgrid[$i][$j]) {
+                    echo $i.'-'.$j.'='.$n;
                     // is the cell in the 'live' range?
-                    if ($n < 2 || $n > 3) {
+                    if ($n >= 2 && $n <= 3) {
                         $grid[$i][$j] = true;
                     } else {
                         // mark the change
