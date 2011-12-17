@@ -340,7 +340,6 @@ function get_pos($type, $orientation, $xpos, $ypos) {
                     $item[$xpos+2] = array();
                     $item[$xpos+2][$ypos+2] = true;
                     break;
-                    break;
                 case 'S':
                     /* position like this (180 degree rotation off N):
                      * [*][*][*]
@@ -414,7 +413,6 @@ function get_pos($type, $orientation, $xpos, $ypos) {
                     $item[$xpos+4] = array();
                     $item[$xpos+4][$ypos] = true;
                     $item[$xpos+4][$ypos+2] = true;
-                    break;
                     break;
                 case 'S':
                     /* position like this (180 degree rotation off N):
