@@ -38,6 +38,15 @@ function init() {
         // get user registration
         $.getJSON('register.php', function (data) {
             if (data.success) {
+                // set the session key
+                sessionkey = data.session.key
+                // set the 'life left' value
+                life_left = data.session.liferemaining;
+                $('#amountleft').html(life_left);
+                
+                // and get set up to re-register after the session expires
+                setTimeout('reregister',(data.session.expires*1000)+500);
+                
                 gol_wrapper.html(gol_wrapper.html()+'<br />Done!<br /><br />Starting game...<br />');
                 
                 $.getJSON('getnext.php', function (data) {
@@ -56,9 +65,30 @@ function init() {
                         hidden_div.html('');
                     }
                 });
+            } else {
+                gol_wrapper.html(gol_wrapper.html()+'<br />Failed!<br /><br />Please try again.<br />');
             }
         });
     }
+}
+
+function reregister() {
+    $.getJSON('register.php', function (data) {
+        if (data.success) {
+            // set the session key
+            sessionkey = data.session.key
+            
+            // set the 'life left' value
+            life_left = data.session.liferemaining;
+            $('#amountleft').html(life_left);
+            
+            // and get set up to re-register after the session expires
+            setTimeout('reregister',(data.session.expires*1000)+500);
+        } else {
+            // try again in half a second
+            setTimeout('reregister',500);
+        }
+    });
 }
 
 $(document).ready(function () {
