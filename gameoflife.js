@@ -3,6 +3,7 @@ var gol_wrapper;
 var hidden_div;
 var gol_table;
 var life_left = 50;
+var sessionkey;
 
 function init() {
     if (gol_wrapper == undefined) {
@@ -32,13 +33,31 @@ function init() {
         gol_table = $('#hidden > table');
         
         // update the user
-        gol_wrapper.html('Please wait... Initializing grid...<br />Done!<br /><br />Loading...');
+        gol_wrapper.html(gol_wrapper.html()+'<br />Done!<br /><br />Registering...');
         
-        // get the current generation
-        
-        // now place the grid
-        gol_wrapper.html(gol_table);
-        hidden_div.html('');
+        // get user registration
+        $.getJSON('register.php', function (data) {
+            if (data.success) {
+                gol_wrapper.html(gol_wrapper.html()+'<br />Done!<br /><br />Starting game...<br />');
+                
+                $.getJSON('getnext.php', function (data) {
+                    if (data.success && data.generation) {
+                        changes = data.generation.change;
+                        
+                        var i;
+                        for (i = 0; i < changes.length; i++) {
+                            if (changes[i].alive) {
+                                $('#cell_'+changes[i].x+'_'+changes[i].y).addClass('alive');
+                            }
+                        }
+                        
+                        // now place the grid
+                        gol_wrapper.html(gol_table);
+                        hidden_div.html('');
+                    }
+                });
+            }
+        });
     }
 }
 
