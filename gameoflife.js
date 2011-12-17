@@ -6,6 +6,8 @@ var life_left = 50;
 var sessionkey;
 var selectedtype = "none";
 var orientation = 'N';
+var xpos = -1;
+var ypos = -1;
 
 function init() {
     if (gol_wrapper == undefined) {
@@ -72,6 +74,12 @@ function init() {
                         });
                         $('#gameoflife').mouseout(function() {
                             $('.possible').removeClass('possible');
+                            xpos = -1;
+                            ypos = -1;
+                        });
+                        
+                        $('#gameoflife').click(function() {
+                            addcurrent();
                         });
                         
                         $('[id^="add_"]').click(function() {
@@ -80,6 +88,7 @@ function init() {
                         $('[id^="show_"]').click(function() {
                             selecttype($(this).attr('add'));
                         });
+                        disablelifetypes();
                     }
                 });
             } else {
@@ -101,11 +110,37 @@ function reregister() {
             
             // and get set up to re-register after the session expires
             setTimeout('reregister',(data.session.expires*1000)+500);
+            
+            disablelifetypes();
         } else {
             // try again in half a second
             setTimeout('reregister',500);
         }
     });
+}
+
+function disablelifetypes() {
+    // first enable them all
+    $('.disabled').removeClass('disabled');
+    
+    if (life_left < 1) {
+        $('#show_single').addClass('disabled');
+    }
+    if (life_left < 4) {
+        $('#show_block').addClass('disabled');
+    }
+    if (life_left < 5) {
+        $('#show_glider').addClass('disabled');
+    }
+    if (life_left < 9) {
+        $('#show_lwss').addClass('disabled');
+    }
+    if (life_left < 48) {
+        $('#show_pulsar').addClass('disabled');
+    }
+    
+    // and deselect everything
+    selecttype('none');
 }
 
 function selecttype(type) {
@@ -164,6 +199,8 @@ function selecttype(type) {
 function displaycurrent(x,y) {
     x = parseInt(x);
     y = parseInt(y);
+    xpos = x;
+    ypos = y;
     
     // clear anything current
     $('.possible').removeClass('possible');
@@ -380,6 +417,25 @@ function displaycurrent(x,y) {
             $('#cell_'+(x+12)+'_'+(y+9)).addClass('possible');
             $('#cell_'+(x+12)+'_'+(y+10)).addClass('possible');
             break;
+    }
+}
+
+function addcurrent() {
+    if (selectedtype != 'none' && xpos > -1) {
+        // set everything to send
+        var d = {
+            session:sessionkey,
+            type:selectedtype,
+            orientation:orientation,
+            xpos:xpos,
+            ypos:ypos
+        }
+        $.getJSON('add.php', d, function (data) {
+            if (!data.success) {
+                alert(data.info);
+            }
+            reregister();
+        });
     }
 }
 
