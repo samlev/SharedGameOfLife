@@ -259,6 +259,21 @@ function latest_generation() {
     return $latest;
 }
 
+// simple check to see if a generation exists
+function check_generation($key, $id) {
+    $q = "SELECT `generated`
+          FROM `generations`
+          WHERE `id`=".intval($id)."
+          AND `key` LIKE '".mysql_real_escape_string($key)."'";
+    $res = run_query($q);
+    
+    if (mysql_num_rows($res)) {
+        return true;
+    }
+    
+    return false;
+}
+
 function get_pos($type, $orientation, $xpos, $ypos) {
     $item = array();
     
