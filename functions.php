@@ -541,4 +541,30 @@ function get_pos($type, $orientation, $xpos, $ypos) {
     // and give back the nice, clean item
     return $item;
 }
+
+/** Turns a 2D map into a 1D array of coordinates
+ * @param array $map The 2D map
+ * @param bool $liveonly Only return the 'live' items
+ */
+function map_to_array($map,$liveonly=false) {
+    $flat = array();
+    
+    // go through the map
+    foreach ($map as $x=>$r) {
+        // is $x out of bounds?
+        foreach ($r as $y=>$val) {
+            // if live only, cherry-pick the live ones
+            if ($liveonly) {
+                if ($val) {
+                    $flat[] = array('x'=>$x,'y'=>$y,'alive'=>true);
+                }
+            } else {
+                // if not live only, take everything
+                $flat[] = array('x'=>$x,'y'=>$y,'alive'=>$val);
+            }
+        }
+    }
+    
+    return $flat;
+}
 ?>
