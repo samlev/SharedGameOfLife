@@ -58,7 +58,7 @@ if (count($se) == 0) {
         // add the session to the database
         $q = "INSERT INTO `sessions`
                 (`key`,`expires`,`liferemaining`)
-              VALUES ('$key', DATE_ADD(NOW(), INTERVAL 30 MINUTES), 50)";
+              VALUES ('$key', DATE_ADD(NOW(), INTERVAL 30 MINUTE), 50)";
         run_query($q);
         
         // add the cookie

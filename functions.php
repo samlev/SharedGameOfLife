@@ -42,7 +42,7 @@ function get_gen_lock() {
         run_query("LOCK TABLES `lock` WRITE, `generations` READ");
         // see if there was a lock within the last 30 seconds
         // (normally, locks should be released, but if the locking script fails, assume that after 30 seconds, it's timed out)
-        $q = "SELECT `lockdate` FROM `lock` WHERE `lockdate` >= DATE_SUB(NOW(), INTERVAL 30 SECONDS) LOCK IN SHARE MODE";
+        $q = "SELECT `lockdate` FROM `lock` WHERE `lockdate` >= DATE_SUB(NOW(), INTERVAL 30 SECOND) LOCK IN SHARE MODE";
         $res = run_query($q);
         
         // is there a current lock?
@@ -50,7 +50,7 @@ function get_gen_lock() {
             // check if we should be making a new generation
             $q = "SELECT `id`
                   FROM `generations`
-                  WHERE `generated` > DATE_SUB(NOW(), INTERVAL ".intval(GENERATION_LIMIT)." SECONDS)";
+                  WHERE `generated` > DATE_SUB(NOW(), INTERVAL ".intval(GENERATION_LIMIT)." SECOND)";
             $res = run_query($q);
             
             if (mysql_num_rows($res)==0) {
@@ -79,7 +79,7 @@ function release_gen_lock() {
     if (get_gen_lock()) {
         // lock, empty, and unlock the table
         run_query("LOCK TABLES `lock` WRITE");
-        run_query("TRUNCATE TABLE `lock`");
+        run_query("DELETE FROM `lock` WHERE 1");
         run_query('UNLOCK TABLES');
     }
 }
@@ -163,7 +163,7 @@ function new_generation() {
             }
         }
         // empty
-        run_query("TRUNCATE TABLE `waitinglife`");
+        run_query("DELETE FROM `waitinglife` WHERE 1");
         
         // and release
         run_query('UNLOCK TABLES');
