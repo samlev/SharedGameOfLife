@@ -62,7 +62,7 @@ if (count($se) == 0) {
         run_query($q);
         
         // add the cookie
-        setcookie('session',$key,1800);
+        setcookie('session',$key,time()+1800);
         
         // and set the return value
         $se['key'] = $key;
