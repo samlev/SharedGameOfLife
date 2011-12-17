@@ -89,10 +89,127 @@ function new_generation() {
     // try to get the generation lock
     if (get_gen_lock()) {
         // get the last generation
+        $lastgen = latest_generation();
+        $oldgrid = $lastgen['position'];
+        
+        // the new generation
+        $grid = array();
+        $changes = array();
+        
+        for ($i=0;$i<200;$i++) {
+            $grid[$i] = array();
+            for ($j=0;$j<200;$j++) {
+                $grid[$i][$j] = false;
+                $n = count_neighbours($oldgrid,$i,$j);
+                
+                if ($oldgrid[$i][$j]) {
+                    // is the cell in the 'live' range?
+                    if ($n < 2 || $n > 3) {
+                        $grid[$i][$j] = true;
+                    } else {
+                        // mark the change
+                        if (!isset($changes[$i])) {
+                            $changes[$i] = array();
+                        }
+                        $changes[$i][$j] = false;
+                    }
+                } else {
+                    // check if we're able to breed
+                    if ($n == 3) {
+                        $grid[$i][$j] = true;
+                        
+                        // mark the change
+                        if (!isset($changes[$i])) {
+                            $changes[$i] = array();
+                        }
+                        $changes[$i][$j] = true;
+                    }
+                }
+            }
+        }
+        
+        // now we've done that - let's add any waiting pieces to the board
+        // first lock the table
+        run_query("LOCK TABLES `waitinglife` WRITE");
+        // now get everything currently in there
+        $q = "SELECT `id`,`type`,`orientation`,`xpos`,`ypos`
+              FROM `waitinglife`
+              WHERE 1";
+        $res = run_query($q);
+        
+        while ($row = mysql_fetch_assoc($res)) {
+            $newlife = get_pos($row['type'],$row['orientation'],$row['xpos'],$row['ypos']);
+            
+            foreach ($newlife as $x=>$r) {
+                foreach ($r as $y=>$dummy) {
+                    // only update if there's a change
+                    if (!$grid[$x][$y]) {
+                        $grid[$x][$y] = true;
+                        
+                        // mark the change
+                        if (!isset($changes[$x])) {
+                            $changes[$x] = array();
+                        }
+                        // is a change already recorded here?
+                        if (isset($changes[$x][$y])) {
+                            // get rid of the change
+                            unset($changes[$x][$y]);
+                        } else {
+                            // mark the change
+                            $changes[$x][$y] = true;
+                        }
+                    }
+                }
+            }
+        }
+        // empty
+        run_query("TRUNCATE TABLE `waitinglife`");
+        
+        // and release
+        run_query('UNLOCK TABLES');
+        
+        // pick a random key for this new generation
+        $key = substr(md5($lastgen['key'].time()),rand(0,20),6);
+        // serialize our position and changes
+        $s_pos = serialize($grid);
+        $s_cng = serialize($changes);
+        
+        // add the new generation
+        $q = "INSERT INTO `generations`
+                (`key`,`generated`,`position`,`change`)
+              VALUES ('$key',NOW(),'".mysql_real_escape_string($s_pos)."','".mysql_real_escape_string($s_cng)."')";
+        run_query($q);
         
         // work is done now - release the generation lock
         release_gen_lock();
     }
+}
+
+function count_neighbours($grid,$x,$y) {
+    // set the search bounds
+    $min_x = ($x > 0 ? $x-1 : $x);
+    $max_x = ($x < 199 ? $x+1: $x);
+    $min_y = ($y > 0 ? $y-1 : $y);
+    $max_y = ($y < 199 ? $y+1: $y);
+    
+    // initialise the number of neighbors
+    $neighbours = 0;
+    
+    // now perform the search
+    for ($i=$min_x;$i<=$max_x;$i++) {
+        for ($j=$min_y;$j<=$max_y;$j++) {
+            // ignore the item we're looking for neighbours for
+            if (!($i==$x && $j==$y )) {
+                if ($grid[$i][$j]) {
+                    // count the neighbour
+                    $neighbours ++ ;
+                }
+            }
+        }
+    }
+    
+    // and return what we've found
+    return $neighbours;
 }
 
 // gets the latest generation
@@ -140,5 +257,24 @@ function latest_generation() {
     }
     
     return $latest;
+}
+
+function get_pos($type, $orientation, $xpos, $ypos) {
+    // check for rotation (N is default)
+    switch ($orientation) {
+        case 'W':
+            
+            break;
+        case 'S':
+            
+            break;
+        case 'E':
+            
+            break;
+        case 'N':
+        default:
+            
+            break;
+    }
 }
 ?>
