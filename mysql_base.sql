@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `generations` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `key` char(6) NOT NULL,
   `generated` datetime NOT NULL,
-  `position` text NOT NULL,
-  `change` text NOT NULL,
+  `position` longtext NOT NULL,
+  `change` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
