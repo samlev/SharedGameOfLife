@@ -274,6 +274,31 @@ function check_generation($key, $id) {
     return false;
 }
 
+// gets the next generation after the ID
+function next_generation($id) {
+    $q = "SELECT `id`,`key`,`generated`,`position`,`change`
+          FROM `generations`
+          WHERE `id`=".(intval($id)+1);
+    $res = run_query($q);
+    
+    if ($row = mysql_fetch_assoc($res)) {
+        $next = array();
+        // get the relevant fields
+        $next['id']=$row['id'];
+        $next['key']=$row['key'];
+        $next['ref']=$row['key'].$row['id'];
+        $next['generated']=$row['generated'];
+        // the current position
+        $next['position']=unserialize($row['position']);
+        // what has changed since the last generation
+        $next['change']=unserialize($row['change']);
+        
+        return $next;
+    }
+    
+    return false;
+}
+
 function get_pos($type, $orientation, $xpos, $ypos) {
     $item = array();
     
