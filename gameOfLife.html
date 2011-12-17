@@ -56,6 +56,9 @@ body {
 .disabled .lifegrid td.alive {
     background-color:#666666;
 }
+th.selected {
+    color:#0000a0;
+}
 </style>
 </head>
 <body>
@@ -88,16 +91,16 @@ body {
     Add life: <span id="amountleft">0</span> left
     <table id="single">
       <tr>
-        <th id="add_none" width="100">None</th>
-        <th id="add_single" width="100">Single (1)</th>
-        <th id="add_block" width="100">Block (4)</th>
-        <th id="add_glider" width="100">Glider (5)</th>
-        <th id="add_lwss" width="100">Lightweight Space Ship (9)</th>
-        <th id="add_pulsar" width="100">Pulsar (48)</th>
+        <th id="add_none" width="100" add="none">None</th>
+        <th id="add_single" width="100" add="single">Single (1)</th>
+        <th id="add_block" width="100" add="block">Block (4)</th>
+        <th id="add_glider" width="100" add="glider">Glider (5)</th>
+        <th id="add_lwss" width="100" add="lwss">Lightweight Space Ship (9)</th>
+        <th id="add_pulsar" width="100" add="pulsar">Pulsar (48)</th>
       </tr>
       <tr>
-        <th id="show_none">&nbsp;</th>
-        <th id="show_single">
+        <th id="show_none" add="none">&nbsp;</th>
+        <th id="show_single" add="single">
           <div class="lifegrid">
             <table>
               <tr>
@@ -112,7 +115,7 @@ body {
             </table>
           </div>
         </th>
-        <th id="show_block">
+        <th id="show_block" add="block">
           <div class="lifegrid">
             <table>
               <tr>
@@ -130,7 +133,7 @@ body {
             </table>
           </div>
         </th>
-        <th id="show_glider">
+        <th id="show_glider" add="glider">
           <div class="lifegrid">
             <table>
               <tr>
@@ -151,7 +154,7 @@ body {
             </table>
           </div>
         </th>
-        <th id="show_lwss">
+        <th id="show_lwss" add="lwss">
           <div class="lifegrid">
             <table>
               <tr>
@@ -175,7 +178,7 @@ body {
             </table>
           </div>
         </th>
-        <th id="show_pulsar">
+        <th id="show_pulsar" add="pulsar">
           <div class="lifegrid">
             <table>
               <tr>
