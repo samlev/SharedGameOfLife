@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `lock` (
 CREATE TABLE IF NOT EXISTS `sessions` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `key` char(32) NOT NULL,
-  `expires` date NOT NULL,
+  `expires` datetime NOT NULL,
   `liferemaining` int(11) NOT NULL DEFAULT '50',
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)

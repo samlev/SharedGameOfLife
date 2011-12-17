@@ -8,6 +8,7 @@ var selectedtype = "none";
 var orientation = 'N';
 var xpos = -1;
 var ypos = -1;
+var last = '';
 
 function init() {
     if (gol_wrapper == undefined) {
@@ -56,6 +57,7 @@ function init() {
                 $.getJSON('getnext.php', function (data) {
                     if (data.success && data.generation) {
                         changes = data.generation.change;
+                        last = data.generation.key;
                         
                         var i;
                         for (i = 0; i < changes.length; i++) {
@@ -89,6 +91,9 @@ function init() {
                             selecttype($(this).attr('add'));
                         });
                         disablelifetypes();
+                        
+                        // and start the run of the game
+                        setTimeout('getgen()',500);
                     }
                 });
             } else {
@@ -437,6 +442,26 @@ function addcurrent() {
             reregister();
         });
     }
+}
+
+function getgen() {
+    d = {last:last};
+    $.getJSON('getnext.php',d, function (data) {
+        if (data.success && data.generation) {
+            changes = data.generation.change;
+            last = data.generation.key;
+            
+            var i;
+            for (i = 0; i < changes.length; i++) {
+                if (changes[i].alive) {
+                    $('#cell_'+changes[i].x+'_'+changes[i].y).addClass('alive');
+                }
+            }
+        }
+        
+        // poll every half a second
+        setTimeout('getgen()',500);
+    });
 }
 
 $(document).ready(function () {

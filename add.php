@@ -4,7 +4,7 @@ require_once('functions.php');
 
 // do we already have a session?
 if (isset($_GET['session'])) {
-    $session_key = $_COOKIE['session'];
+    $session_key = $_GET['session'];
     
     run_query('START TRANSACTION');
     
