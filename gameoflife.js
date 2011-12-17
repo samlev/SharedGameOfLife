@@ -192,10 +192,10 @@ function displaycurrent(x,y) {
                      * [ ][ ][*]
                      */
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos][$ypos+2] = true;
+                    $('#cell_'+x+'_'+(y+2)).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+1][$ypos+2] = true;
-                    $item[$xpos+2][$ypos+2] = true;
+                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
                     break;
                     break;
                 case 'S':
@@ -206,9 +206,9 @@ function displaycurrent(x,y) {
                      */
                     $('#cell_'+x+'_'+y).addClass('possible');
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos][$ypos+2] = true;
+                    $('#cell_'+x+'_'+(y+2)).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+2][$ypos+1] = true;
+                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
                     break;
                 case 'E':
                     /* position like this (90 degree rotation off N):
@@ -218,9 +218,9 @@ function displaycurrent(x,y) {
                      */
                     $('#cell_'+x+'_'+y).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+1][$ypos+2] = true;
-                    $item[$xpos+2][$ypos] = true;
-                    $item[$xpos+2][$ypos+1] = true;
+                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
                     break;
                 case 'N':
                 default:
@@ -230,10 +230,10 @@ function displaycurrent(x,y) {
                      * [*][*][*]
                      */
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos+1][$ypos+2] = true;
-                    $item[$xpos+2][$ypos] = true;
-                    $item[$xpos+2][$ypos+1] = true;
-                    $item[$xpos+2][$ypos+2] = true;
+                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
                     break;
             }
             break;
@@ -249,14 +249,14 @@ function displaycurrent(x,y) {
                      * [*][ ][*][ ]
                      */
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos][$ypos+2] = true;
-                    $item[$xpos][$ypos+3] = true;
+                    $('#cell_'+x+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+x+'_'+(y+3)).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+1][$ypos+3] = true;
-                    $item[$xpos+2][$ypos+3] = true;
-                    $item[$xpos+3][$ypos+3] = true;
-                    $item[$xpos+4][$ypos] = true;
-                    $item[$xpos+4][$ypos+2] = true;
+                    $('#cell_'+(x+1)+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+4)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
                     break;
                     break;
                 case 'S':
@@ -268,13 +268,13 @@ function displaycurrent(x,y) {
                      */
                     $('#cell_'+x+'_'+y).addClass('possible');
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos][$ypos+2] = true;
-                    $item[$xpos][$ypos+3] = true;
+                    $('#cell_'+x+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+x+'_'+(y+3)).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+1][$ypos+4] = true;
-                    $item[$xpos+2][$ypos] = true;
-                    $item[$xpos+3][$ypos+1] = true;
-                    $item[$xpos+3][$ypos+4] = true;
+                    $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
                     break;
                 case 'E':
                     /* position like this (90 degree rotation off N):
@@ -285,14 +285,14 @@ function displaycurrent(x,y) {
                      * [*][*][*][ ]
                      */
                     $('#cell_'+x+'_'+(y+1)).addClass('possible');
-                    $item[$xpos][$ypos+3] = true;
+                    $('#cell_'+x+'_'+(y+3)).addClass('possible');
                     $('#cell_'+(x+1)+'_'+y).addClass('possible');
-                    $item[$xpos+2][$ypos] = true;
-                    $item[$xpos+3][$ypos+1] = true;
-                    $item[$xpos+3][$ypos+3] = true;
-                    $item[$xpos+4][$ypos] = true;
-                    $item[$xpos+4][$ypos+1] = true;
-                    $item[$xpos+4][$ypos+2] = true;
+                    $('#cell_'+(x+2)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+4)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+4)+'_'+(y+1)).addClass('possible');
+                    $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
                     break;
                 case 'N':
                 default:
@@ -304,17 +304,14 @@ function displaycurrent(x,y) {
                      */
                     $item[$xpos] = array();
                     $('#cell_'+x+'_'+y).addClass('possible');
-                    $item[$xpos][$ypos+3] = true;
-                    $item[$xpos+1] = array();
-                    $item[$xpos+1][$ypos+4] = true;
-                    $item[$xpos+2] = array();
-                    $item[$xpos+2][$ypos] = true;
-                    $item[$xpos+2][$ypos+4] = true;
-                    $item[$xpos+3] = array();
-                    $item[$xpos+3][$ypos+1] = true;
-                    $item[$xpos+3][$ypos+2] = true;
-                    $item[$xpos+3][$ypos+3] = true;
-                    $item[$xpos+3][$ypos+4] = true;
+                    $('#cell_'+x+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+y).addClass('possible');
+                    $('#cell_'+(x+2)+'_'+(y+4)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+2)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                    $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
                     break;
             }
             break;
@@ -334,64 +331,54 @@ function displaycurrent(x,y) {
              * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
              * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
              */
-            $item[$xpos] = array();
-            $item[$xpos][$ypos+2] = true;
-            $item[$xpos][$ypos+3] = true;
-            $item[$xpos][$ypos+4] = true;
-            $item[$xpos][$ypos+8] = true;
-            $item[$xpos][$ypos+9] = true;
-            $item[$xpos][$ypos+10] = true;
-            $item[$xpos+2] = array();
-            $item[$xpos+2][$ypos] = true;
-            $item[$xpos+2][$ypos+5] = true;
-            $item[$xpos+2][$ypos+6] = true;
-            $item[$xpos+2][$ypos+12] = true;
-            $item[$xpos+3] = array();
-            $item[$xpos+3][$ypos] = true;
-            $item[$xpos+3][$ypos+5] = true;
-            $item[$xpos+3][$ypos+6] = true;
-            $item[$xpos+3][$ypos+12] = true;
-            $item[$xpos+4] = array();
-            $item[$xpos+4][$ypos] = true;
-            $item[$xpos+4][$ypos+5] = true;
-            $item[$xpos+4][$ypos+6] = true;
-            $item[$xpos+4][$ypos+12] = true;
-            $item[$xpos+5] = array();
-            $item[$xpos+5][$ypos+2] = true;
-            $item[$xpos+5][$ypos+3] = true;
-            $item[$xpos+5][$ypos+4] = true;
-            $item[$xpos+5][$ypos+8] = true;
-            $item[$xpos+5][$ypos+9] = true;
-            $item[$xpos+5][$ypos+10] = true;
-            $item[$xpos+7] = array();
-            $item[$xpos+7][$ypos+2] = true;
-            $item[$xpos+7][$ypos+3] = true;
-            $item[$xpos+7][$ypos+4] = true;
-            $item[$xpos+7][$ypos+8] = true;
-            $item[$xpos+7][$ypos+9] = true;
-            $item[$xpos+7][$ypos+10] = true;
-            $item[$xpos+8] = array();
-            $item[$xpos+8][$ypos] = true;
-            $item[$xpos+8][$ypos+5] = true;
-            $item[$xpos+8][$ypos+6] = true;
-            $item[$xpos+8][$ypos+12] = true;
-            $item[$xpos+9] = array();
-            $item[$xpos+9][$ypos] = true;
-            $item[$xpos+9][$ypos+5] = true;
-            $item[$xpos+9][$ypos+6] = true;
-            $item[$xpos+9][$ypos+12] = true;
-            $item[$xpos+10] = array();
-            $item[$xpos+10][$ypos] = true;
-            $item[$xpos+10][$ypos+5] = true;
-            $item[$xpos+10][$ypos+6] = true;
-            $item[$xpos+10][$ypos+12] = true;
-            $item[$xpos+12] = array();
-            $item[$xpos+12][$ypos+2] = true;
-            $item[$xpos+12][$ypos+3] = true;
-            $item[$xpos+12][$ypos+4] = true;
-            $item[$xpos+12][$ypos+8] = true;
-            $item[$xpos+12][$ypos+9] = true;
-            $item[$xpos+12][$ypos+10] = true;
+            $('#cell_'+x+'_'+(y+2)).addClass('possible');
+            $('#cell_'+x+'_'+(y+3)).addClass('possible');
+            $('#cell_'+x+'_'+(y+4)).addClass('possible');
+            $('#cell_'+x+'_'+(y+8)).addClass('possible');
+            $('#cell_'+x+'_'+(y+9)).addClass('possible');
+            $('#cell_'+x+'_'+(y+10)).addClass('possible');
+            $('#cell_'+(x+2)+'_'+y).addClass('possible');
+            $('#cell_'+(x+2)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+2)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+2)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+3)+'_'+y).addClass('possible');
+            $('#cell_'+(x+3)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+3)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+3)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+4)+'_'+y).addClass('possible');
+            $('#cell_'+(x+4)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+4)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+4)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+2)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+3)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+4)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+8)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+9)).addClass('possible');
+            $('#cell_'+(x+5)+'_'+(y+10)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+2)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+3)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+4)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+8)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+9)).addClass('possible');
+            $('#cell_'+(x+7)+'_'+(y+10)).addClass('possible');
+            $('#cell_'+(x+8)+'_'+y).addClass('possible');
+            $('#cell_'+(x+8)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+8)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+8)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+9)+'_'+y).addClass('possible');
+            $('#cell_'+(x+9)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+9)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+9)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+10)+'_'+y).addClass('possible');
+            $('#cell_'+(x+10)+'_'+(y+5)).addClass('possible');
+            $('#cell_'+(x+10)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+10)+'_'+(y+12)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+2)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+3)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+4)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+8)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+9)).addClass('possible');
+            $('#cell_'+(x+12)+'_'+(y+10)).addClass('possible');
             break;
     }
 }
