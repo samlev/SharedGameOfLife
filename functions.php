@@ -88,6 +88,7 @@ function release_gen_lock() {
 function new_generation() {
     // try to get the generation lock
     if (get_gen_lock()) {
+        // get the last generation
         
         // work is done now - release the generation lock
         release_gen_lock();
@@ -103,6 +104,41 @@ function latest_generation() {
               LIMIT 1";
     $res = run_query($query);
     
+    $latest = array();
     
+    // do we have a 'latest' generation?
+    if ($row = mysql_fetch_assoc($res)) {
+        // get the relevant fields
+        $latest['id']=$row['id'];
+        $latest['key']=$row['key'];
+        $latest['ref']=$row['key'].$row['id'];
+        $latest['generated']=$row['generated'];
+        // the current position
+        $latest['position']=unserialize($row['position']);
+        // what has changed since the last generation
+        $latest['change']=unserialize($row['change']);
+    } else {
+        // no we don't - must be time to start a new game!
+        $latest['id']=0;
+        $latest['key']='';
+        $latest['ref']='';
+        $latest['generated']='1970-01-01 00:00:00';
+        
+        // make a blank grid
+        $postemp = array();
+        for ($i = 0; $i < 200; $i++) {
+            $postemp[$i] = array();
+            for ($j = 0; $j < 200; $j++) {
+                $postemp[$i][$j] = false;
+            }
+        }
+        
+        // the current position
+        $latest['position']=$postemp;
+        // nothing has changed
+        $latest['change']=array();
+    }
+    
+    return $latest;
 }
 ?>
