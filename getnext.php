@@ -6,7 +6,7 @@ require_once('functions.php');
 new_generation();
 
 // check if we want the next evolution, or the latest evolution
-if (isset($_GET['last']) && strlen(trim($_POST['last']))>=7) {
+if (isset($_GET['last']) && strlen(trim($_GET['last']))>=7) {
     // split the 'last' into it's component parts = a 6 char key, and the rest is the ID
     $k = substr(trim($_GET['last']),0,6);
     $id = intval(substr(trim($_GET['last']),6));

@@ -381,15 +381,15 @@ function displaycurrent(x,y) {
             $('#cell_'+(x)+'_'+(y+10)).addClass('possible');
             $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+2)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+2)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+2)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+2)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+3)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+3)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+3)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+3)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+3)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+4)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+4)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+4)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+4)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+5)+'_'+(y+2)).addClass('possible');
             $('#cell_'+(x+5)+'_'+(y+3)).addClass('possible');
@@ -405,15 +405,15 @@ function displaycurrent(x,y) {
             $('#cell_'+(x+7)+'_'+(y+10)).addClass('possible');
             $('#cell_'+(x+8)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+8)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+8)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+8)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+8)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+9)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+9)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+9)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+9)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+9)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+10)+'_'+(y)).addClass('possible');
             $('#cell_'+(x+10)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+10)+'_'+(y+6)).addClass('possible');
+            $('#cell_'+(x+10)+'_'+(y+7)).addClass('possible');
             $('#cell_'+(x+10)+'_'+(y+12)).addClass('possible');
             $('#cell_'+(x+12)+'_'+(y+2)).addClass('possible');
             $('#cell_'+(x+12)+'_'+(y+3)).addClass('possible');
@@ -448,13 +448,15 @@ function getgen() {
     d = {last:last};
     $.getJSON('getnext.php',d, function (data) {
         if (data.success && data.generation) {
-            changes = data.generation.change;
+            var changes = data.generation.change;
             last = data.generation.key;
             
             var i;
             for (i = 0; i < changes.length; i++) {
-                if (changes[i].alive) {
+                if (changes[i].alive === true) {
                     $('#cell_'+changes[i].x+'_'+changes[i].y).addClass('alive');
+                } else {
+                    $('#cell_'+changes[i].x+'_'+changes[i].y).removeClass('alive');
                 }
             }
         }
