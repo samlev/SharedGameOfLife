@@ -260,21 +260,285 @@ function latest_generation() {
 }
 
 function get_pos($type, $orientation, $xpos, $ypos) {
-    // check for rotation (N is default)
-    switch ($orientation) {
-        case 'W':
-            
+    $item = array();
+    
+    switch ($type) {
+        case 'single':
+            /* simple (no rotation) - position like this:
+             * [*]
+             */
+            $item[$xpos] = array();
+            $item[$xpos][$ypos] = true;
             break;
-        case 'S':
-            
+        case 'block':
+            /* simple (no rotation) - position like this:
+             * [*][*]
+             * [*][*]
+             */
+            $item[$xpos] = array();
+            $item[$xpos][$ypos] = true;
+            $item[$xpos][$ypos+1] = true;
+            $item[$xpos+1] = array();
+            $item[$xpos+1][$ypos] = true;
+            $item[$xpos+1][$ypos+1] = true;
             break;
-        case 'E':
-            
+        case 'glider':
+            // check for rotation (N is default)
+            switch ($orientation) {
+                case 'W':
+                    /* position like this (270 degree rotation off N):
+                     * [ ][*][*]
+                     * [*][ ][*]
+                     * [ ][ ][*]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos][$ypos+2] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+1][$ypos+2] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos+2] = true;
+                    break;
+                    break;
+                case 'S':
+                    /* position like this (180 degree rotation off N):
+                     * [*][*][*]
+                     * [*][ ][ ]
+                     * [ ][*][ ]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos] = true;
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos][$ypos+2] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos+1] = true;
+                    break;
+                case 'E':
+                    /* position like this (90 degree rotation off N):
+                     * [*][ ][ ]
+                     * [*][ ][*]
+                     * [*][*][ ]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+1][$ypos+2] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos] = true;
+                    $item[$xpos+2][$ypos+1] = true;
+                    break;
+                case 'N':
+                default:
+                    /* position like this:
+                     * [ ][*][ ]
+                     * [ ][ ][*]
+                     * [*][*][*]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos+2] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos] = true;
+                    $item[$xpos+2][$ypos+1] = true;
+                    $item[$xpos+2][$ypos+2] = true;
+                    break;
+            }
             break;
-        case 'N':
-        default:
-            
+        case 'lwss':
+            // check for rotation (N is default)
+            switch ($orientation) {
+                case 'W':
+                    /* position like this (270 degree rotation off N):
+                     * [ ][*][*][*]
+                     * [*][ ][ ][*]
+                     * [ ][ ][ ][*]
+                     * [ ][ ][ ][*]
+                     * [*][ ][*][ ]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos][$ypos+2] = true;
+                    $item[$xpos][$ypos+3] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+1][$ypos+3] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos+3] = true;
+                    $item[$xpos+3] = array();
+                    $item[$xpos+3][$ypos+3] = true;
+                    $item[$xpos+4] = array();
+                    $item[$xpos+4][$ypos] = true;
+                    $item[$xpos+4][$ypos+2] = true;
+                    break;
+                    break;
+                case 'S':
+                    /* position like this (180 degree rotation off N):
+                     * [*][*][*][*][ ]
+                     * [*][ ][ ][ ][*]
+                     * [*][ ][ ][ ][ ]
+                     * [ ][*][ ][ ][*]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos] = true;
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos][$ypos+2] = true;
+                    $item[$xpos][$ypos+3] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+1][$ypos+4] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos] = true;
+                    $item[$xpos+3] = array();
+                    $item[$xpos+3][$ypos+1] = true;
+                    $item[$xpos+3][$ypos+4] = true;
+                    break;
+                case 'E':
+                    /* position like this (90 degree rotation off N):
+                     * [ ][*][ ][*]
+                     * [*][ ][ ][ ]
+                     * [*][ ][ ][ ]
+                     * [*][ ][ ][*]
+                     * [*][*][*][ ]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos+1] = true;
+                    $item[$xpos][$ypos+3] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos] = true;
+                    $item[$xpos+3] = array();
+                    $item[$xpos+3][$ypos+1] = true;
+                    $item[$xpos+3][$ypos+3] = true;
+                    $item[$xpos+4] = array();
+                    $item[$xpos+4][$ypos] = true;
+                    $item[$xpos+4][$ypos+1] = true;
+                    $item[$xpos+4][$ypos+2] = true;
+                    break;
+                case 'N':
+                default:
+                    /* position like this:
+                     * [*][ ][ ][*][ ]
+                     * [ ][ ][ ][ ][*]
+                     * [*][ ][ ][ ][*]
+                     * [ ][*][*][*][*]
+                     */
+                    $item[$xpos] = array();
+                    $item[$xpos][$ypos] = true;
+                    $item[$xpos][$ypos+3] = true;
+                    $item[$xpos+1] = array();
+                    $item[$xpos+1][$ypos+4] = true;
+                    $item[$xpos+2] = array();
+                    $item[$xpos+2][$ypos] = true;
+                    $item[$xpos+2][$ypos+4] = true;
+                    $item[$xpos+3] = array();
+                    $item[$xpos+3][$ypos+1] = true;
+                    $item[$xpos+3][$ypos+2] = true;
+                    $item[$xpos+3][$ypos+3] = true;
+                    $item[$xpos+3][$ypos+4] = true;
+                    break;
+            }
+            break;
+        case 'pulsar':
+            /* simple (no rotation) - position like this:
+             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+             */
+            $item[$xpos] = array();
+            $item[$xpos][$ypos+2] = true;
+            $item[$xpos][$ypos+3] = true;
+            $item[$xpos][$ypos+4] = true;
+            $item[$xpos][$ypos+8] = true;
+            $item[$xpos][$ypos+9] = true;
+            $item[$xpos][$ypos+10] = true;
+            $item[$xpos+2] = array();
+            $item[$xpos+2][$ypos] = true;
+            $item[$xpos+2][$ypos+5] = true;
+            $item[$xpos+2][$ypos+6] = true;
+            $item[$xpos+2][$ypos+12] = true;
+            $item[$xpos+3] = array();
+            $item[$xpos+3][$ypos] = true;
+            $item[$xpos+3][$ypos+5] = true;
+            $item[$xpos+3][$ypos+6] = true;
+            $item[$xpos+3][$ypos+12] = true;
+            $item[$xpos+4] = array();
+            $item[$xpos+4][$ypos] = true;
+            $item[$xpos+4][$ypos+5] = true;
+            $item[$xpos+4][$ypos+6] = true;
+            $item[$xpos+4][$ypos+12] = true;
+            $item[$xpos+5] = array();
+            $item[$xpos+5][$ypos+2] = true;
+            $item[$xpos+5][$ypos+3] = true;
+            $item[$xpos+5][$ypos+4] = true;
+            $item[$xpos+5][$ypos+8] = true;
+            $item[$xpos+5][$ypos+9] = true;
+            $item[$xpos+5][$ypos+10] = true;
+            $item[$xpos+7] = array();
+            $item[$xpos+7][$ypos+2] = true;
+            $item[$xpos+7][$ypos+3] = true;
+            $item[$xpos+7][$ypos+4] = true;
+            $item[$xpos+7][$ypos+8] = true;
+            $item[$xpos+7][$ypos+9] = true;
+            $item[$xpos+7][$ypos+10] = true;
+            $item[$xpos+8] = array();
+            $item[$xpos+8][$ypos] = true;
+            $item[$xpos+8][$ypos+5] = true;
+            $item[$xpos+8][$ypos+6] = true;
+            $item[$xpos+8][$ypos+12] = true;
+            $item[$xpos+9] = array();
+            $item[$xpos+9][$ypos] = true;
+            $item[$xpos+9][$ypos+5] = true;
+            $item[$xpos+9][$ypos+6] = true;
+            $item[$xpos+9][$ypos+12] = true;
+            $item[$xpos+10] = array();
+            $item[$xpos+10][$ypos] = true;
+            $item[$xpos+10][$ypos+5] = true;
+            $item[$xpos+10][$ypos+6] = true;
+            $item[$xpos+10][$ypos+12] = true;
+            $item[$xpos+12] = array();
+            $item[$xpos+12][$ypos+2] = true;
+            $item[$xpos+12][$ypos+3] = true;
+            $item[$xpos+12][$ypos+4] = true;
+            $item[$xpos+12][$ypos+8] = true;
+            $item[$xpos+12][$ypos+9] = true;
+            $item[$xpos+12][$ypos+10] = true;
             break;
     }
+    
+    // cleanup - ensure that nothing is out of bounds
+    foreach ($item as $x=>$r) {
+        // is $x out of bounds?
+        if ($x < 0 || $x >= 200) {
+            // dump the row
+            unset($item[$x]);
+        } else {
+            foreach ($r as $y=>$dummy) {
+                // is $y out of bounds?
+                if ($y < 0 || $y >= 200) {
+                    // dump the row
+                    unset($item[$x][$y]);
+                }
+            }
+        }
+    }
+    
+    // and give back the nice, clean item
+    return $item;
 }
 ?>
