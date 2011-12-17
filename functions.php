@@ -4,9 +4,6 @@ require_once('config.php');
 $db = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS) or die('Cannot connect to database: '. mysql_error());
 mysql_select_db(MYSQL_NAME, $db);
 
-// Try to make a new generation
-new_generation();
-
 /** Runs a basic query */
 function run_query($query, $link=null) {
     if ($link !== null) {
