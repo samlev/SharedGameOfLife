@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `generations` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `key` char(6) NOT NULL,
   `generated` datetime NOT NULL,
-  `millisecond` double NOT NULL,
+  `millisec` double NOT NULL,
   `position` longtext NOT NULL,
   `change` longtext NOT NULL,
   PRIMARY KEY (`id`),

@@ -59,6 +59,17 @@ body {
 th.selected {
     color:#0000a0;
 }
+#rotators{
+    text-align:center;
+    display:block;
+    width:600px;
+}
+#rotators span{
+    cursor:pointer;
+}
+#rotators.hidden{
+    display:none;
+}
 </style>
 </head>
 <body>
@@ -89,6 +100,12 @@ th.selected {
   </div>
   <div id="life">
     Add life: <span id="amountleft">0</span> left (if you run out, it will replenish after half an hour)
+    <br />
+    <div id="rotators" class="hidden">
+      <span id="rotateleft"> &lt;-- Rotate Left</span>
+      &nbsp;&nbsp;&nbsp;
+      <span id="rotateright">Rotate Right --&gt;</span>
+    </div>
     <table id="single">
       <tr>
         <th id="add_none" width="100" add="none">None</th>

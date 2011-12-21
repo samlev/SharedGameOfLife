@@ -11,6 +11,8 @@ var ypos = -1;
 var last = '';
 var registertimeout;
 
+var canrotate = false;
+
 function init() {
     if (gol_wrapper == undefined) {
         // get the game of life wrapper
@@ -91,6 +93,46 @@ function init() {
                         $('[id^="show_"]').click(function() {
                             selecttype($(this).attr('add'));
                         });
+                        
+                        $('#rotateleft').click(function () {
+                            if (canrotate) {
+                                switch (orientation) {
+                                    case 'N':
+                                        orientation = 'W';
+                                        break;
+                                    case 'W':
+                                        orientation = 'S';
+                                        break;
+                                    case 'S':
+                                        orientation = 'E';
+                                        break;
+                                    case 'E':
+                                    default:
+                                        orientation = 'N';
+                                        break;
+                                }
+                            }
+                        });
+                        
+                        $('#rotateright').click(function () {
+                            if (canrotate) {
+                                switch (orientation) {
+                                    case 'N':
+                                        orientation = 'E';
+                                        break;
+                                    case 'E':
+                                        orientation = 'S';
+                                        break;
+                                    case 'S':
+                                        orientation = 'W';
+                                        break;
+                                    case 'W':
+                                    default:
+                                        orientation = 'N';
+                                        break;
+                                }
+                            }
+                        });
                         disablelifetypes();
                         
                         // and start the run of the game
@@ -163,6 +205,7 @@ function selecttype(type) {
             if (life_left >= 1) {
                 $('#add_single').addClass('selected');
                 selectedtype = 'single';
+                canrotate = false;
             } else {
                 selecttype('none');
             }
@@ -171,6 +214,7 @@ function selecttype(type) {
             if (life_left >= 4) {
                 $('#add_block').addClass('selected');
                 selectedtype = 'block';
+                canrotate = false;
             } else {
                 selecttype('none');
             }
@@ -179,6 +223,7 @@ function selecttype(type) {
             if (life_left >= 5) {
                 $('#add_glider').addClass('selected');
                 selectedtype = 'glider';
+                canrotate = true;
             } else {
                 selecttype('none');
             }
@@ -187,6 +232,7 @@ function selecttype(type) {
             if (life_left >= 9) {
                 $('#add_lwss').addClass('selected');
                 selectedtype = 'lwss';
+                canrotate = true;
             } else {
                 selecttype('none');
             }
@@ -195,6 +241,7 @@ function selecttype(type) {
             if (life_left >= 48) {
                 $('#add_pulsar').addClass('selected');
                 selectedtype = 'pulsar';
+                canrotate = false;
             } else {
                 selecttype('none');
             }
@@ -203,7 +250,16 @@ function selecttype(type) {
         default:
             selectedtype = 'none';
             $('#add_none').addClass('selected');
+            canrotate = false;
             break;
+    }
+    
+    orientation = 'N';
+    
+    if (canrotate) {
+        $('#rotators').removeClass('hidden');
+    } else {
+        $('#rotators').addClass('hidden');
     }
 }
 
