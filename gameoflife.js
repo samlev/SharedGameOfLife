@@ -9,6 +9,7 @@ var orientation = 'N';
 var xpos = -1;
 var ypos = -1;
 var last = '';
+var registertimeout;
 
 function init() {
     if (gol_wrapper == undefined) {
@@ -50,7 +51,7 @@ function init() {
                 $('#amountleft').html(life_left);
                 
                 // and get set up to re-register after the session expires
-                setTimeout('reregister',(data.session.expires*1000)+500);
+                registertimeout = setTimeout('reregister',(data.session.expires*1000)+500);
                 
                 gol_wrapper.html(gol_wrapper.html()+'<br />Done!<br /><br />Starting game...<br />');
                 
@@ -93,7 +94,7 @@ function init() {
                         disablelifetypes();
                         
                         // and start the run of the game
-                        setTimeout('getgen()',500);
+                        setTimeout('getgen()',20);
                     }
                 });
             } else {
@@ -104,6 +105,11 @@ function init() {
 }
 
 function reregister() {
+    if (registertimeout !== undefined) {
+        clearTimeout(registertimeout);
+        registertimeout = undefined;
+    }
+    
     $.getJSON('register.php', function (data) {
         if (data.success) {
             // set the session key
@@ -114,12 +120,12 @@ function reregister() {
             $('#amountleft').html(life_left);
             
             // and get set up to re-register after the session expires
-            setTimeout('reregister',(data.session.expires*1000)+500);
+            registertimeout = setTimeout('reregister',(data.session.expires*1000)+500);
             
             disablelifetypes();
         } else {
             // try again in half a second
-            setTimeout('reregister',500);
+            registertimeout = setTimeout('reregister',500);
         }
     });
 }
@@ -461,8 +467,8 @@ function getgen() {
             }
         }
         
-        // poll every half a second
-        setTimeout('getgen()',500);
+        // poll every 20 miliseconds second
+        setTimeout('getgen()',20);
     });
 }
 

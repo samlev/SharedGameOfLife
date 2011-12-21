@@ -50,7 +50,7 @@ function get_gen_lock() {
             // check if we should be making a new generation
             $q = "SELECT `id`
                   FROM `generations`
-                  WHERE `generated` > DATE_SUB(NOW(), INTERVAL ".intval(GENERATION_LIMIT)." SECOND)";
+                  WHERE `millisec` > ".(round(microtime(true),4)+((intval(GENERATION_LIMIT)>0?intval(GENERATION_LIMIT):1)/1000))."";
             $res = run_query($q);
             
             if (mysql_num_rows($res)==0) {
@@ -176,8 +176,8 @@ function new_generation() {
         
         // add the new generation
         $q = "INSERT INTO `generations`
-                (`key`,`generated`,`position`,`change`)
-              VALUES ('$key',NOW(),'".mysql_real_escape_string($s_pos)."','".mysql_real_escape_string($s_cng)."')";
+                (`key`,`generated`,`millisec`,`position`,`change`)
+              VALUES ('$key',NOW(),".round(microtime(true),4).",'".mysql_real_escape_string($s_pos)."','".mysql_real_escape_string($s_cng)."')";
         run_query($q);
         
         // work is done now - release the generation lock
