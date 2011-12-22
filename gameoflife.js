@@ -95,43 +95,11 @@ function init() {
                         });
                         
                         $('#rotateleft').click(function () {
-                            if (canrotate) {
-                                switch (orientation) {
-                                    case 'N':
-                                        orientation = 'W';
-                                        break;
-                                    case 'W':
-                                        orientation = 'S';
-                                        break;
-                                    case 'S':
-                                        orientation = 'E';
-                                        break;
-                                    case 'E':
-                                    default:
-                                        orientation = 'N';
-                                        break;
-                                }
-                            }
+                            rotateleft();
                         });
                         
                         $('#rotateright').click(function () {
-                            if (canrotate) {
-                                switch (orientation) {
-                                    case 'N':
-                                        orientation = 'E';
-                                        break;
-                                    case 'E':
-                                        orientation = 'S';
-                                        break;
-                                    case 'S':
-                                        orientation = 'W';
-                                        break;
-                                    case 'W':
-                                    default:
-                                        orientation = 'N';
-                                        break;
-                                }
-                            }
+                            rotateright();
                         });
                         disablelifetypes();
                         
@@ -258,8 +226,16 @@ function selecttype(type) {
     
     if (canrotate) {
         $('#rotators').removeClass('hidden');
+        $(document).keydown(function(e){
+            if (e.keyCode == 37) { 
+               rotateleft();
+            } else if (e.keyCode == 39) { 
+               rotateright();
+            }
+        });
     } else {
         $('#rotators').addClass('hidden');
+        $(document).unbind('keydown');
     }
 }
 
@@ -272,218 +248,220 @@ function displaycurrent(x,y) {
     // clear anything current
     $('.possible').removeClass('possible');
     
-    switch (selectedtype) {
-        case 'single':
-            /* simple (no rotation) - position like this:
-             * [*]
-             */
-            $('#cell_'+(x)+'_'+(y)).addClass('possible');
-            break;
-        case 'block':
-            /* simple (no rotation) - position like this:
-             * [*][*]
-             * [*][*]
-             */
-            $('#cell_'+(x)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-            $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+1)+'_'+(y+1)).addClass('possible');
-            break;
-        case 'glider':
-            // check for rotation (N is default)
-            switch (orientation) {
-                case 'W':
-                    /* position like this (270 degree rotation off N):
-                     * [ ][*][*]
-                     * [*][ ][*]
-                     * [ ][ ][*]
-                     */
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
-                    break;
-                case 'S':
-                    /* position like this (180 degree rotation off N):
-                     * [*][*][*]
-                     * [*][ ][ ]
-                     * [ ][*][ ]
-                     */
-                    $('#cell_'+(x)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
-                    break;
-                case 'E':
-                    /* position like this (90 degree rotation off N):
-                     * [*][ ][ ]
-                     * [*][ ][*]
-                     * [*][*][ ]
-                     */
-                    $('#cell_'+(x)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
-                    break;
-                case 'N':
-                default:
-                    /* position like this:
-                     * [ ][*][ ]
-                     * [ ][ ][*]
-                     * [*][*][*]
-                     */
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
-                    break;
-            }
-            break;
-        case 'lwss':
-            // check for rotation (N is default)
-            switch (orientation) {
-                case 'W':
-                    /* position like this (270 degree rotation off N):
-                     * [ ][*][*][*]
-                     * [*][ ][ ][*]
-                     * [ ][ ][ ][*]
-                     * [ ][ ][ ][*]
-                     * [*][ ][*][ ]
-                     */
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
-                    break;
-                case 'S':
-                    /* position like this (180 degree rotation off N):
-                     * [*][*][*][*][ ]
-                     * [*][ ][ ][ ][*]
-                     * [*][ ][ ][ ][ ]
-                     * [ ][*][ ][ ][*]
-                     */
-                    $('#cell_'+(x)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
-                    break;
-                case 'E':
-                    /* position like this (90 degree rotation off N):
-                     * [ ][*][ ][*]
-                     * [*][ ][ ][ ]
-                     * [*][ ][ ][ ]
-                     * [*][ ][ ][*]
-                     * [*][*][*][ ]
-                     */
-                    $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+4)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
-                    break;
-                case 'N':
-                default:
-                    /* position like this:
-                     * [*][ ][ ][*][ ]
-                     * [ ][ ][ ][ ][*]
-                     * [*][ ][ ][ ][*]
-                     * [ ][*][*][*][*]
-                     */
-                    $('#cell_'+(x)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                    $('#cell_'+(x+2)+'_'+(y+4)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+2)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
-                    $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
-                    break;
-            }
-            break;
-        case 'pulsar':
-            /* simple (no rotation) - position like this:
-             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
-             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
-             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
-             * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-             * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
-             */
-            $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+4)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+8)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+9)).addClass('possible');
-            $('#cell_'+(x)+'_'+(y+10)).addClass('possible');
-            $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+2)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+2)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+2)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+3)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+3)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+3)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+3)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+4)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+4)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+4)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+2)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+3)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+4)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+8)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+9)).addClass('possible');
-            $('#cell_'+(x+5)+'_'+(y+10)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+2)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+3)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+4)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+8)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+9)).addClass('possible');
-            $('#cell_'+(x+7)+'_'+(y+10)).addClass('possible');
-            $('#cell_'+(x+8)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+8)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+8)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+8)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+9)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+9)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+9)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+9)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+10)+'_'+(y)).addClass('possible');
-            $('#cell_'+(x+10)+'_'+(y+5)).addClass('possible');
-            $('#cell_'+(x+10)+'_'+(y+7)).addClass('possible');
-            $('#cell_'+(x+10)+'_'+(y+12)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+2)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+3)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+4)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+8)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+9)).addClass('possible');
-            $('#cell_'+(x+12)+'_'+(y+10)).addClass('possible');
-            break;
+    if (x >= 0 && y >=0){
+        switch (selectedtype) {
+            case 'single':
+                /* simple (no rotation) - position like this:
+                 * [*]
+                 */
+                $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                break;
+            case 'block':
+                /* simple (no rotation) - position like this:
+                 * [*][*]
+                 * [*][*]
+                 */
+                $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+1)+'_'+(y+1)).addClass('possible');
+                break;
+            case 'glider':
+                // check for rotation (N is default)
+                switch (orientation) {
+                    case 'W':
+                        /* position like this (270 degree rotation off N):
+                         * [ ][*][*]
+                         * [*][ ][*]
+                         * [ ][ ][*]
+                         */
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
+                        break;
+                    case 'S':
+                        /* position like this (180 degree rotation off N):
+                         * [*][*][*]
+                         * [*][ ][ ]
+                         * [ ][*][ ]
+                         */
+                        $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
+                        break;
+                    case 'E':
+                        /* position like this (90 degree rotation off N):
+                         * [*][ ][ ]
+                         * [*][ ][*]
+                         * [*][*][ ]
+                         */
+                        $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
+                        break;
+                    case 'N':
+                    default:
+                        /* position like this:
+                         * [ ][*][ ]
+                         * [ ][ ][*]
+                         * [*][*][*]
+                         */
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+2)).addClass('possible');
+                        break;
+                }
+                break;
+            case 'lwss':
+                // check for rotation (N is default)
+                switch (orientation) {
+                    case 'W':
+                        /* position like this (270 degree rotation off N):
+                         * [ ][*][*][*]
+                         * [*][ ][ ][*]
+                         * [ ][ ][ ][*]
+                         * [ ][ ][ ][*]
+                         * [*][ ][*][ ]
+                         */
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
+                        break;
+                    case 'S':
+                        /* position like this (180 degree rotation off N):
+                         * [*][*][*][*][ ]
+                         * [*][ ][ ][ ][*]
+                         * [*][ ][ ][ ][ ]
+                         * [ ][*][ ][ ][*]
+                         */
+                        $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
+                        break;
+                    case 'E':
+                        /* position like this (90 degree rotation off N):
+                         * [ ][*][ ][*]
+                         * [*][ ][ ][ ]
+                         * [*][ ][ ][ ]
+                         * [*][ ][ ][*]
+                         * [*][*][*][ ]
+                         */
+                        $('#cell_'+(x)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+4)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+4)+'_'+(y+2)).addClass('possible');
+                        break;
+                    case 'N':
+                    default:
+                        /* position like this:
+                         * [*][ ][ ][*][ ]
+                         * [ ][ ][ ][ ][*]
+                         * [*][ ][ ][ ][*]
+                         * [ ][*][*][*][*]
+                         */
+                        $('#cell_'+(x)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+1)+'_'+(y+4)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                        $('#cell_'+(x+2)+'_'+(y+4)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+2)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y+4)).addClass('possible');
+                        break;
+                }
+                break;
+            case 'pulsar':
+                /* simple (no rotation) - position like this:
+                 * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+                 * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+                 * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+                 * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [*][ ][ ][ ][ ][*][ ][*][ ][ ][ ][ ][*]
+                 * [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+                 * [ ][ ][*][*][*][ ][ ][ ][*][*][*][ ][ ]
+                 */
+                $('#cell_'+(x)+'_'+(y+2)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+4)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+8)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+9)).addClass('possible');
+                $('#cell_'+(x)+'_'+(y+10)).addClass('possible');
+                $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+2)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+2)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+2)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+3)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+3)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+3)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+3)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+4)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+4)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+4)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+2)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+3)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+4)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+8)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+9)).addClass('possible');
+                $('#cell_'+(x+5)+'_'+(y+10)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+2)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+3)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+4)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+8)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+9)).addClass('possible');
+                $('#cell_'+(x+7)+'_'+(y+10)).addClass('possible');
+                $('#cell_'+(x+8)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+8)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+8)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+8)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+9)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+9)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+9)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+9)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+10)+'_'+(y)).addClass('possible');
+                $('#cell_'+(x+10)+'_'+(y+5)).addClass('possible');
+                $('#cell_'+(x+10)+'_'+(y+7)).addClass('possible');
+                $('#cell_'+(x+10)+'_'+(y+12)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+2)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+3)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+4)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+8)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+9)).addClass('possible');
+                $('#cell_'+(x+12)+'_'+(y+10)).addClass('possible');
+                break;
+        }
     }
 }
 
@@ -526,6 +504,50 @@ function getgen() {
         // poll every 20 miliseconds second
         setTimeout('getgen()',20);
     });
+}
+
+function rotateleft() {
+    if (canrotate) {
+        switch (orientation) {
+            case 'N':
+                orientation = 'W';
+                break;
+            case 'W':
+                orientation = 'S';
+                break;
+            case 'S':
+                orientation = 'E';
+                break;
+            case 'E':
+            default:
+                orientation = 'N';
+                break;
+        }
+        
+        displaycurrent(xpos,ypos);
+    }
+}
+
+function rotateright() {
+    if (canrotate) {
+        switch (orientation) {
+            case 'N':
+                orientation = 'E';
+                break;
+            case 'E':
+                orientation = 'S';
+                break;
+            case 'S':
+                orientation = 'W';
+                break;
+            case 'W':
+            default:
+                orientation = 'N';
+                break;
+        }
+        
+        displaycurrent(xpos,ypos);
+    }
 }
 
 $(document).ready(function () {
