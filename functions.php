@@ -451,7 +451,7 @@ function get_pos($type, $orientation, $xpos, $ypos) {
                     $item[$xpos+2] = array();
                     $item[$xpos+2][$ypos] = true;
                     $item[$xpos+3] = array();
-                    $item[$xpos+3][$ypos+1] = true;
+                    $item[$xpos+3][$ypos] = true;
                     $item[$xpos+3][$ypos+3] = true;
                     $item[$xpos+4] = array();
                     $item[$xpos+4][$ypos] = true;

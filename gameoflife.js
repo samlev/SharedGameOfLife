@@ -370,7 +370,7 @@ function displaycurrent(x,y) {
                         $('#cell_'+(x)+'_'+(y+3)).addClass('possible');
                         $('#cell_'+(x+1)+'_'+(y)).addClass('possible');
                         $('#cell_'+(x+2)+'_'+(y)).addClass('possible');
-                        $('#cell_'+(x+3)+'_'+(y+1)).addClass('possible');
+                        $('#cell_'+(x+3)+'_'+(y)).addClass('possible');
                         $('#cell_'+(x+3)+'_'+(y+3)).addClass('possible');
                         $('#cell_'+(x+4)+'_'+(y)).addClass('possible');
                         $('#cell_'+(x+4)+'_'+(y+1)).addClass('possible');
