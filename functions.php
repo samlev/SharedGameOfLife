@@ -97,14 +97,15 @@ function new_generation() {
         $changes = array();
         
         for ($i=0;$i<200;$i++) {
-            $grid[$i] = array();
             for ($j=0;$j<200;$j++) {
-                $grid[$i][$j] = false;
                 $n = count_neighbours($oldgrid,$i,$j);
                 
                 if ($oldgrid[$i][$j]) {
                     // is the cell in the 'live' range?
                     if ($n == 2 || $n == 3) {
+                        if (!isset($grid[$i])) {
+                            $grid[$i] = array();
+                        }
                         $grid[$i][$j] = true;
                     } else {
                         // mark the change
@@ -116,6 +117,9 @@ function new_generation() {
                 } else {
                     // check if we're able to breed
                     if ($n == 3) {
+                        if (!isset($grid[$i])) {
+                            $grid[$i] = array();
+                        }
                         $grid[$i][$j] = true;
                         
                         // mark the change
